@@ -20,11 +20,11 @@ require_once('class/functions.php');
 
 	
 
-		$check=$connect->checkAccountIfExist('account',$username);
+		$check=$connect->checkAccountIfExist('account',$_POST['username']);
 
 		
 
-		if ($check==1) 
+		if ($check=!0)
 		{
 			//echo "already exist";
 			//this doesnt work correctly still has dupes
@@ -33,7 +33,7 @@ require_once('class/functions.php');
 		}
 		else
 		{
-			;
+			
 			
 			$connect->insertData('account',array("username"=>$username,"password"=>$password));
 			header('location: login.php');
@@ -85,20 +85,24 @@ require_once('class/functions.php');
 		$setSchedule_time=$_POST['schedule_time'];
 
 
-		$check=$connect->checkPatientIfExist('schedule_table',$patient_First_name,$patient_Last_name,$setSchedule_time);
+		$check=$connect->checkPatientIfExist('schedule_table',$_POST['set_Schedule']);
 
-		if ($check==1) {
-
-			$_SESSION['success']='set';
-
-		$connect->insertData('schedule_table',array("patient_First_name"=>$patient_First_name,
-		"patient_Last_name"=>$patient_Last_name,"set_Schedule"=>$setSchedule, 
-		"schedule_time"=>$setSchedule_time));
-		}
-	    else {
-
+		if ($check=!0) {
 			$_SESSION['fail3']='set';
 			header('location: booking.php');
+		
+		}
+	    else {
+			$_SESSION['success']='set';
+
+			$connect->insertData('schedule_table',array(
+			"patient_First_name"=>$patient_First_name,
+			"patient_Last_name"=>$patient_Last_name,
+			"set_Schedule"=>$setSchedule, 
+			"schedule_time"=>$setSchedule_time));
+	
+			header('location: booking.php');
+			
 		}
 
 

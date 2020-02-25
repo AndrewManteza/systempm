@@ -85,7 +85,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
      <label for="confirmpasswordlabel"> Confirm Password </label>
      <input type ="password" name= "confirmPassword" required>
 
-// please make the registered account added message straight as a text to the screen and not redirected
+ please make the registered account added message straight as a text to the screen and not redirected
 
      <button type = "submit" name = "register_User"> Submit </button>
 

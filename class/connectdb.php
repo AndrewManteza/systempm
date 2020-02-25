@@ -52,12 +52,10 @@ $this->currentuser='';
 			$num=mysqli_num_rows($result);
 			return $num;
 		}
-		function checkPatientIfExist($dbname,$patient_First_name,$patient_Last_name,$setSchedule_time)
+		function checkPatientIfExist($dbname,$setSchedule_time)
 		{
-			$s= "SELECT schedule_table FROM $dbname WHERE patient_First_name='$patient_First_name' AND patient_Last_name='$patient_Last_name' AND 
+			$s= "SELECT schedule_table FROM $dbname WHERE 
 				schedule_time='$setSchedule_time'";
-
-
 			$result=mysqli_query($this->db,$s);
 			$num=mysqli_num_rows($result);
 			return $num;
@@ -68,14 +66,14 @@ $this->currentuser='';
 		}
 		function checkAccountIfExistAdd($dbname,$first_name,$middle_name,$last_name)
 		{
-			$s= "SELECT account FROM $dbname WHERE username='$first_name' AND patient_mname='$middle_name'AND patient_lname='$last_name'";
+			$s= "SELECT schedule_table FROM $dbname WHERE username='$first_name' AND patient_mname='$middle_name'AND patient_lname='$last_name'";
 			$result=mysqli_query($this->db,$s);
 			$num=mysqli_num_rows($result);
 			return $num;
 		}
-		function insertAddPatient($dbname,$patient_First_name,$patient_Last_name,$set_Schedule)
+		function insertAddPatient($dbname,$patient_First_name,$patient_Last_name,$set_Schedule,$setSchedule_time)
 		{
-			$s= "INSERT INTO $dbname (`patient_First_name`, `patient_Last_name`,`set_Schedule`) VALUES ('$patient_First_name','$patient_Last_name','$$set_Schedule',')";
+			$s= "INSERT INTO $dbname (`patient_First_name`, `patient_Last_name`,`set_Schedule`, `schedule_time`) VALUES ('$patient_First_name','$patient_Last_name','$set_Schedule','$setSchedule_time',')";
 			
 			
 if (mysqli_query($this->db, $s)) {

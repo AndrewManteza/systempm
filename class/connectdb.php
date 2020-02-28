@@ -47,15 +47,23 @@ $this->currentuser='';
 		}
 		function checkAccountIfExist($dbname,$username)
 		{
-			$s= "SELECT account FROM $dbname WHERE username='$username'";
+			$s= "SELECT id FROM $dbname WHERE username='$username'";
 			$result=mysqli_query($this->db,$s);
 			$num=mysqli_num_rows($result);
 			return $num;
 		}
-		function checkPatientIfExist($dbname,$setSchedule_time)
+		function checkSchedIfExist($dbname,$set_Schedule,$setSchedule_time)
 		{
-			$s= "SELECT schedule_table FROM $dbname WHERE 
-				schedule_time='$setSchedule_time'";
+			$s= "SELECT id FROM $dbname WHERE 
+				
+               
+				
+				schedule_time='$setSchedule_time'
+				AND
+				set_Schedule='$setSchedule'
+
+
+			";
 			$result=mysqli_query($this->db,$s);
 			$num=mysqli_num_rows($result);
 			return $num;
@@ -140,6 +148,6 @@ if (mysqli_query($this->db, $s)) {
 		}
 
     }
-
-
+         
+		
 ?>

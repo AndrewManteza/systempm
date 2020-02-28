@@ -57,11 +57,13 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
-  <a class="w3-bar-item w3-button w3-hover-black" href="login.php">login</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="register.php">register</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="booking.php">booking</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="schedules.php">schedules</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="patientlist.php">patient list</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="login.php">Login</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="register.php">Register</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="booking.php">Booking</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="schedules.php">Schedules</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="patientlist.php">Patient list</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="scheduletable.php">Scheduled Patient List</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="chart.php">chart</a>
   
 </nav>
 

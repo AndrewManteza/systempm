@@ -18,7 +18,7 @@ session_start();
 
  <head>
 
-   <title>Patient List</title>
+   <title>Scheduled Patients</title>
    <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -74,9 +74,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
   <a class="w3-bar-item w3-button w3-hover-black" href="booking.php">booking</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="schedules.php">schedules</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="patientlist.php">patient list</a>
- 
   <a class="w3-bar-item w3-button w3-hover-black" href="scheduletable.php">Scheduled patients list</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="chart.php">chart</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="FinancialRecord.php">Financial</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -90,26 +89,24 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     <div class="container">
    
            
-  <h2 align= center>Patient List</h2>
-  <div class="col-sm-6">
-						<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons"></i> <span>Add New User</span></a>
-						<a href="JavaScript:void(0);" class="btn btn-danger" id="delete_multiple"><i class="material-icons"></i> <span>Delete</span></a>						
-					</div>
+  <h2 align= center>Scheduled Patient List</h2>
+              
   <table class="table table-hover">
                 <tr>
                    
                     <th>First Name</th>
                     <th>Middle Name</th>
                     <th>Last Name</th>
-                    <th>Age</th>
-                    <th>Contact</th>
-                    <th>Email</th>
+                    <th>Scheduled Date</th>
+                    <th>Time</th>
+                    <th>Payment</th>
+                    <th>Assigned Therapist</th>
                 </tr>
-                <form action="patientlist.php" method="post">
+                <form action="scheduletable.php" method="post">
             <input type="text" name="valueToSearch" placeholder="Value To Search"><br><br>
             <input type="submit" name="search" value="Filter"><br><br>
-            <input type="submit" name="reset" value="reset"><br><br>
-     
+            <input type="submit" name="reset" value="Reset"><br><br>
+            <input type="submit" name="schedtoday" value="Patients Today"><br><br>
       <!-- populate table from mysql database -->
                 <?php 
 
@@ -118,21 +115,32 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                   $valueToSearch = $_POST['valueToSearch'];
                   // search in all table columns
                   // using concat mysql function
-                  $query = "SELECT * FROM `schedule_table` WHERE
-                   CONCAT(`patient_First_name`, `patient_Middle_name`, `patient_Last_name`, `patient_Age`,`patient_Contact`,`patient_Email`) 
+                  $query = "SELECT * FROM `patientsscheduled` WHERE
+                   CONCAT(`Schedpatient_First_name`, `Schedpatient_Middle_name`, `Schedpatient_Last_name`,
+                    `set_Schedule`,`schedule_time`,`patient_Payment`,`assigned_Therapist`) 
                   LIKE '%".$valueToSearch."%'";
                   $search_result = filterTable($query);
                   
                 }
-                else if (isset($_POST['reset'])){
-                  $query = "SELECT * FROM `schedule_table`";
+                 else if (isset($_POST['reset'])) {
+                  $query = "SELECT * FROM `patientsscheduled`";
                   $search_result = filterTable($query);
                 }
-                 else {
-                  $query = "SELECT * FROM `schedule_table`";
-                  $search_result = filterTable($query);
-                }
-                
+
+
+                else if (isset($_POST['schedtoday'])) {
+                    $query = "SELECT *
+                    FROM `patientsscheduled` 
+                    where date
+                    (set_Schedule)=curdate()";
+                                 
+                    $search_result = filterTable($query);
+                  }
+
+                else {
+                    $query = "SELECT * FROM `patientsscheduled`";
+                    $search_result = filterTable($query);
+                  }
                 // function to connect and execute the query
                 function filterTable($query)
                 {
@@ -145,13 +153,13 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 
                 while($row = mysqli_fetch_array($search_result)):?>
                 <tr>
-                    <td><?php echo $row['patient_First_name'];?></td>
-                    <td><?php echo $row['patient_Middle_name'];?></td>
-                    <td><?php echo $row['patient_Last_name'];?></td>
-                    <td><?php echo $row['patient_Age'];?></td>
-                    <td><?php echo $row['patient_Contact'];?></td>
-                    <td><?php echo $row['patient_Email'];?></td>
-
+                    <td><?php echo $row['Schedpatient_First_name'];?></td>
+                    <td><?php echo $row['Schedpatient_Middle_name'];?></td>
+                    <td><?php echo $row['Schedpatient_Last_name'];?></td>
+                    <td><?php echo $row['set_Schedule'];?></td>
+                    <td><?php echo $row['schedule_time'];?></td>
+                    <td><?php echo $row['patient_Payment'];?></td>
+                    <td><?php echo $row['assigned_Therapist'];?></td>
                 </tr>
                 <?php endwhile;?>
                 </table>
@@ -176,69 +184,19 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      
+        <button type="button" class="btn btn-primary" data-dismiss>Save changes</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
 
     </div>
    
   </div>
 
   </body>
-
-  <div id="addEmployeeModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form id="user_form" action="server.php">">
-					<div class="modal-header">						
-						<h4 class="modal-title">Add User</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					</div>
-					<div class="modal-body">	
-                   				
-						<div class="form-group">
-							<label>First Name</label>
-							<input type="text" id="patientFirstname" name="patient_First_name" class="form-control" required>
-						</div>
-						<div class="form-group">
-							<label>Middle Name</label>
-							<input type="text" id="patientMiddlename" name="patient_Middle_name" class="form-control" required>
-						</div>
-						<div class="form-group">
-							<label>Last Name</label>
-							<input type="text" id="patientLastname" name="patient_Last_name" class="form-control" required>
-						</div>
-						<div class="form-group">
-							<label>Age</label>
-							<input type="text" id="patientAge" name="patient_Age" class="form-control" required>
-						</div>		
-                        <div class="form-group">
-							<label>Contact</label>
-							<input type="text" id="patientContact" name="patient_Contact" class="form-control" required>
-						</div>	
-                        <div class="form-group">
-							<label>	Email</label>
-							<input type="email" id="patientEmail" name="patient_Email" class="form-control" required>
-						</div>	
-
-					</div>
-					<div class="modal-footer">
-					    <input type="hidden" value="1" name="type">
-						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                        
-						<button type="submit" class="btn btn-success" name = "add_Patient" id="add_Patient">Add</button>
-					</div>
-
-				</form>
-			</div>
-		</div>
-	</div>
- 
-
 <!-- END MAIN -->
-
 
 <script>
 //modal

@@ -7,6 +7,7 @@
 <?php 
 require_once('class/connectdb.php');
 require_once('class/functions.php'); 
+require_once('server.php');
 ?>
 
 
@@ -76,6 +77,9 @@ label {
   <a class="w3-bar-item w3-button w3-hover-black" href="booking.php">booking</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="schedules.php">schedules</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="patientlist.php">patient list</a>
+  
+  <a class="w3-bar-item w3-button w3-hover-black" href="scheduletable.php">Scheduled patients list</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="chart.php">chart</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -87,7 +91,7 @@ label {
 
 <div class="w3-row w3-padding-64">
   <div class="w3-twothird w3-container">
-    <h1 class="w3-text-teal">Make this one look pretty, please</h1>
+    <h1 class="w3-text-teal">BOOKING</h1>
    
   </div>
  
@@ -97,48 +101,43 @@ label {
    <form action = "server.php" method = "post">
 
    <?php
-     if(isset($_SESSION['fail3']))
+      if(isset($_SESSION['fail3']))
       {
-        echo '<h1>time is taken</h1>';
-      unset($_SESSION['fail3']);
-     }
-      else if(isset($_SESSION['success']))
-       {
-        echo "<h1>patient added</h1>";
-       }
+        echo '<h1>Time is occupied</h1>';
+        unset($_SESSION['fail3']);
+       
+      }
+
       ?>
 
 
 <h1>Appointment Schedules</h1>
-<label for = "patient_First_name"> Patient First Name:  </label>
-<input type ="text" name= "patient_First_name" required><br>
 
-<label for = "patient_Middle_name"> Patient Middle Name:  </label>
-<input type ="text" name= "patient_Middle_name"><br>
+<label for = "Schedpatient_First_name"> Patient First Name:  </label>
+<input type ="text" name= "Schedpatient_First_name" required><br>
 
-<label for = "patient_Last_name"> Patient Last Name:  </label>
-<input type ="text" name= "patient_Last_name" required><br>
+<label for = "Schedpatient_Middle_name"> Patient Middle Name:  </label>
+<input type ="text" name= "Schedpatient_Middle_name"><br>
 
-<label for = "patient_Age"> Age:  </label>
-<input type ="text" name= "patient_Age"><br>
+<label for = "Schedpatient_Last_name"> Patient Last Name:  </label>
+<input type ="text" name= "Schedpatient_Last_name" required><br>
 
-<label for = "patient_Sex"> Sex:  </label>
-<input type ="text" name= "patient_Sex"><br>
+<label for = "assigned_Therapist"> Assigned Therapist:  </label>
+<input type ="text" name= "assigned_Therapist" required><br>
 
-<label for = "patient_Contact"> Phone Number:  </label>
-<input type ="text" name= "patient_Contact"><br>
-
-
-<label for="set_Schedule"> Set Date </label>
+<label for="set_Schedule"> Set Date: </label>
 <input type ="date" name= "set_Schedule" required><br>
 
 
 <label for="schedule_time">Choose a time for your meeting:</label>
 
 <input type="time" id="schedule_time" name="schedule_time"
-       min="09:00" max="17:00" required>
+       min="09:00" max="16:00" required>
 
-       <button type = "submit" name = "schedule_appointment"> Book </button>
+       <label for="patient_Payment"> Set Payment: </label>
+<input type ="text" name= "patient_Payment" required><br>
+
+       <button type = "submit" name = "schedule_appointment"> Book Appointment</button>
 
 
 <small>Office hours are 9am to 5pm</small>

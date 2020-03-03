@@ -7,10 +7,12 @@
 <?php
 require_once('class/connectdb.php');
 require_once('class/functions.php'); 
-require_once('server.php');
+
 session_start();
+$db = mysqli_connect('localhost', 'root', '', 'account');
 
 
+$connect = new connectdb('root', '','account');
 ?>
 
 
@@ -69,12 +71,14 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
+  <a class="w3-bar-item w3-button w3-hover-black" href="home.php">Home</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="login.php">login</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="register.php">register</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="booking.php">booking</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="schedules.php">schedules</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="patientlist.php">patient list</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="scheduletable.php">Scheduled patients list</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="newpatient.php">Add Patients</a>
+  <a class="w3-bar-item w3-button w3-theme-l1" href="scheduletable.php">Scheduled patients list</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="FinancialRecord.php">Financial</a>
 </nav>
 
@@ -160,44 +164,57 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                     <td><?php echo $row['schedule_time'];?></td>
                     <td><?php echo $row['patient_Payment'];?></td>
                     <td><?php echo $row['assigned_Therapist'];?></td>
+
+                  
+			<td>
+				<a href="scheduletable.php?del=<?php echo $row['id']; ?>" class="del_btn">Delete</a>
+        <a href="updatepatient.php" class="update_btn">Update</a>
+			</td>
                 </tr>
                 <?php endwhile;?>
                 </table>
 </div>
       </form>
         
-   <div class="modal fade" id="myModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">EDIT</h4>
-      </div>
-      <div class="modal-body">
-      <form action = "server.php" method = "post">
-        <p><input type="text" class="input-sm" id="txtfname"/></p>
-        <p><input type="text" class="input-sm" id="txtmname"/></p>
-        <p><input type="text" class="input-sm" id="txtlname"/></p>
-        <p><input type="text" class="input-sm" id="txtage"/></p>
-        <textarea id="w3mission" rows="4" cols="50">
-        </textarea>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss>Save changes</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-
+   
     </div>
    
   </div>
 
   </body>
 <!-- END MAIN -->
+<?php 
+$id = 0;
+if (isset($_GET['del'])) {
+    $id = $_GET['del'];
+    mysqli_query($db, "DELETE FROM patientsscheduled WHERE id=$id");
 
+   
+}
+
+
+if (isset($_POST['updatebutton'])) {
+
+
+  $id = 0;
+  $id = $_POST['updatebutton'];
+  mysqli_query($db, "DELETE FROM patientsscheduled WHERE id='$id'");
+
+	$newSchedpatient_First_name=$_POST['newSchedpatient_First_name'];
+	$newSchedpatient_Middle_name=$_POST['newSchedpatient_Middle_name'];
+	$newSchedpatient_Last_name=$_POST['newSchedpatient_Last_name'];
+	$newset_Schedule=$_POST['newset_Schedule'];
+	$newschedule_time=$_POST['newschedule_time'];
+	$newpatient_Payment=$_POST['newpatient_Payment'];
+	$newassigned_Therapist=$_POST['newassigned_Therapist'];
+	
+
+	$connect->updatedataID( 'patientsscheduled', array("Schedpatient_First_name"=>$newSchedpatient_First_name,
+	"Schedpatient_Middle_name"=>$newSchedpatient_Middle_name,"Schedpatient_Last_name" =>$newSchedpatient_Last_name,"set_Schedule"=>$newset_Schedule
+	,"schedule_time"=>$newschedule_time,"patient_Payment"=>$newpatient_Payment, "assigned_Therapist"=>$newassigned_Therapist));
+}
+?>
+ 
 <script>
 //modal
 

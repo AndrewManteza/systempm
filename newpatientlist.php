@@ -186,7 +186,7 @@ require 'save.php';
 	<div id="editEmployeeModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form id="update_form">
+				<form id="update_form" action="server.php">
 					<div class="modal-header">						
 						<h4 class="modal-title">Edit Patient</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>

@@ -139,7 +139,79 @@ require_once('class/functions.php');
 
 	}
 
+
+
+//update patient
+
+$db = mysqli_connect('localhost', 'root', '', 'account');
+if (isset($_POST['updatebutton'])) {
+	$id = $_POST['id'];
+	$Schedpatient_First_name=$_POST['Schedpatient_First_name'];
+	$Schedpatient_Middle_name=$_POST['Schedpatient_Middle_name'];
+	$Schedpatient_Last_name=$_POST['Schedpatient_Last_name'];
+	$setSchedule=$_POST['set_Schedule'];
+	$setSchedule_time=$_POST['schedule_time'];
+	$patient_Payment=$_POST['patient_Payment'];
+	$assigned_Therapist=$_POST['assigned_Therapist'];
+	
+
+	mysqli_query($db, "UPDATE patientsscheduled SET Schedpatient_First_name='$Schedpatient_First_name',
+	Schedpatient_Middle_name='$Schedpatient_Middle_name',Schedpatient_Last_name='$Schedpatient_Last_name',set_Schedule='$set_Schedule',
+	
+	,schedule_time='$schedule_time',patient_Payment='$patient_Payment', assigned_Therapist='$assigned_Therapist',WHERE id=$id");
+}
+
+
+//  if (isset($_POST['Add_Session'])) {
+// 	$id = $_POST['id'];
+// 		$setSchedule2=$_POST['set_Schedule'];
+//  	$setSchedule_time2=$_POST['schedule_time'];
+// 	$patient_Payment2=$_POST['patient_Payment'];
+// $assigned_Therapist2=$_POST['assigned_Therapist'];
+	
+
+// mysqli_query($db," INSERT INTO 'patientscheduled' set_Schedule"=>$setSchedule,
+// 	"schedule_time"=>$schedule_time,"patient_Payment"=>$patient_Payment,"assigned_Therapist"=>$assigned_Therapist"));
+
+
+
+// }
+
+
+if (isset($_POST['Add_Session'])) 
+{
+	$Schedpatient_First_name=$_POST['Schedpatient_First_name'];
+	$Schedpatient_Middle_name=$_POST['Schedpatient_Middle_name'];
+	$Schedpatient_Last_name=$_POST['Schedpatient_Last_name'];
+	$setSchedule=$_POST['set_Schedule'];
+	$setSchedule_time=$_POST['schedule_time'];
+	$patient_Payment=$_POST['patient_Payment'];
+	$assigned_Therapist=$_POST['assigned_Therapist'];
+
+
+	
+			
+			$connect->insertData('patientsscheduled',
+			array("Schedpatient_First_name"=>$Schedpatient_First_name,
+			"Schedpatient_Middle_name"=>$Schedpatient_Middle_name,
+			"Schedpatient_Last_name"=>$Schedpatient_Last_name,
+			"set_Schedule"=>$setSchedule, 
+			"schedule_time"=>$setSchedule_time,
+			"assigned_Therapist"=>$assigned_Therapist,
+			"patient_Payment"=>$patient_Payment
+		));
+
+		
+		header('location: patientlist.php');
+
+
+		}
+
+
 	?>
+
+
+
 
 
 	

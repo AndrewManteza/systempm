@@ -7,7 +7,7 @@
 <?php 
 require_once('class/connectdb.php');
 require_once('class/functions.php'); 
-require_once('server.php');
+require_once('scheduletable.php');
 ?>
 
 
@@ -76,7 +76,7 @@ label {
   <a class="w3-bar-item w3-button w3-hover-black" href="home.php">Home</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="login.php">login</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="register.php">register</a>
-  <a class="w3-bar-item w3-button w3-theme-l1" href="booking.php">booking</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="booking.php">booking</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="schedules.php">schedules</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="patientlist.php">patient list</a>
     <a class="w3-bar-item w3-button w3-hover-black" href="newpatient.php">Add Patients</a>
@@ -87,66 +87,49 @@ label {
 <!-- Overlay effect when opening sidebar on small screens -->
 <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
   
-  
-  
+
    <div class="w3-main" style="margin-left:800px">
 
 <div class="w3-row w3-padding-64">
   <div class="w3-twothird w3-container">
-    <h1 class="w3-text-teal">BOOKING</h1>
+    <h1 class="w3-text-teal">ADD TO PATIENT LIST</h1>
    
   </div>
  
 </div>
    
 
-   <form action = "server.php" method = "post">
+   
 
-   <?php
-      if(isset($_SESSION['fail3']))
-      {
-        echo '<h1>Time is occupied</h1>';
-        unset($_SESSION['fail3']);
-       
-      }
+<h1>Update Patient</h1>
 
-      ?>
+<form action = "updatepatient.php" method = "post">
+      <label for = "newSchedpatient_First_name"> Patient First Name:  </label>
+<input type ="text" name= "newSchedpatient_First_name" ><br>
 
+<label for = "newSchedpatient_Middle_name"> Patient Middle Name:  </label>
+<input type ="text" name= "newSchedpatient_Middle_name"><br>
 
-<h1>Appointment Schedules</h1>
+<label for = "newSchedpatient_Last_name"> Patient Last Name:  </label>
+<input type ="text" name= "newSchedpatient_Last_name" ><br>
 
-<label for = "Schedpatient_First_name"> Patient First Name:  </label>
-<input type ="text" name= "Schedpatient_First_name" required><br>
+<label for = "newassigned_Therapist"> Assigned Therapist:  </label>
+<input type ="text" name= "newassigned_Therapist" ><br>
 
-<label for = "Schedpatient_Middle_name"> Patient Middle Name:  </label>
-<input type ="text" name= "Schedpatient_Middle_name"><br>
-
-<label for = "Schedpatient_Last_name"> Patient Last Name:  </label>
-<input type ="text" name= "Schedpatient_Last_name" required><br>
-
-<label for = "assigned_Therapist"> Assigned Therapist:  </label>
-<input type ="text" name= "assigned_Therapist" required><br>
-
-<label for="set_Schedule"> Set Date: </label>
-<input type ="date" name= "set_Schedule" required><br>
+<label for="newset_Schedule"> Set Date: </label>
+<input type ="date" name= "newset_Schedule" ><br>
 
 
-<label for="schedule_time">Choose a time for your meeting:</label>
+<label for="newschedule_time">Choose a time for your meeting:</label>
 
-<input type="time" id="schedule_time" name="schedule_time"
-       min="09:00" max="16:00" required>
+<input type="time" id="schedule_time" name="newschedule_time"
+       min="09:00" max="16:00">
 
-       <label for="patient_Payment"> Set Payment: </label>
-<input type ="text" name= "patient_Payment" required><br>
+       <label for="newpatient_Payment"> Set Payment: </label>
+<input type ="text" name= "newpatient_Payment" ><br>
 
-       <button type = "submit" name = "schedule_appointment"> Book Appointment</button>
-
-
-<small>Office hours are 9am to 5pm</small>
-
-
-
-
+      
+        <button type="submit" class="btn btn-primary" name = "updatebutton"data-dismiss>Save changes</button>
 
 
           <script> 

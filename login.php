@@ -39,7 +39,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 <div class="w3-row w3-padding-64">
   <div class="w3-twothird w3-container">
   <form action = "server.php" method = "post">
-  <h1> HELLO THERE </h1>
+  <h1> Top Kinesio Therapy Clinic </h1>
    <h2> Login </h2>
    <?php
       if(isset($_SESSION['fail']))

@@ -9,7 +9,15 @@ require_once('class/connectdb.php');
 require_once('class/functions.php'); 
 ?>
 
+<?php
+// connect to database
+$conn = mysqli_connect('localhost', 'root', '', 'account');
 
+$sql = "SELECT * FROM files";
+$result = mysqli_query($conn, $sql);
+
+$files = mysqli_fetch_all($result, MYSQLI_ASSOC);
+?>
 <html>
 
  <head>
@@ -57,6 +65,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
+  <a class="w3-bar-item w3-button w3-hover-black" href="home.php">Home</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="login.php">Login</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="register.php">Register</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="booking.php">Booking</a>
@@ -74,15 +83,39 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 
   <div class="w3-row w3-padding-64">
     <div class="w3-twothird w3-container">
-      <h1 class="w3-text-teal">Welcome
-      try putting the schedules here through a calendar
-      ,no calendar = small PP</h1>
+      <h1 class="w3-text-teal">Upload File</h1>
      
     </div>
    
   </div>
-
  
+  <form action="home.php" method="post" enctype="multipart/form-data" >
+          <h3>Upload File</h3>
+          <input type="file" name="myfile"> <br>
+          <button type="submit" name="savefile">upload</button>
+
+
+          <table>
+<thead>
+    <th>ID</th>
+    <th>Filename</th>
+    <th>size (in mb)</th>
+    <th>Downloads</th>
+    <th>Action</th>
+</thead>
+<tbody>
+  <?php foreach ($files as $file): ?>
+    <tr>
+      <td><?php echo $file['id']; ?></td>
+      <td><?php echo $file['name']; ?></td>
+      <td><?php echo floor($file['size'] / 1000) . ' KB'; ?></td>
+      <td><?php echo $file['downloads']; ?></td>
+      <td><a href="downloads.php?file_id=<?php echo $file['id'] ?>">Download</a></td>
+    </tr>
+  <?php endforeach;?>
+
+</tbody>
+</table>
 
   <!-- Pagination -->
  
@@ -116,4 +149,67 @@ function w3_close() {
 </script>
 
 </body>
+
+<?php
+if (isset($_POST['savefile'])) { // if save button on the form is clicked
+    // name of the uploaded file
+    $filename = $_FILES['myfile']['name'];
+
+    // destination of the file on the server
+    $destination = 'uploads/' . $filename;
+
+    // get the file extension
+    $extension = pathinfo($filename, PATHINFO_EXTENSION);
+
+    // the physical file on a temporary uploads directory on the server
+    $file = $_FILES['myfile']['tmp_name'];
+    $size = $_FILES['myfile']['size'];
+
+    if (!in_array($extension, ['zip', 'pdf', 'docx'])) {
+        echo "You file extension must be .zip, .pdf or .docx";
+    } elseif ($_FILES['myfile']['size'] > 5000000) { // file shouldn't be larger than 1Megabyte
+        echo "File too large!";
+    } else {
+        // move the uploaded (temporary) file to the specified destination
+        if (move_uploaded_file($file, $destination)) {
+            $sql = "INSERT INTO files (filename, size, downloads) VALUES ('$filename', $size, 0)";
+            if (mysqli_query($conn, $sql)) {
+                echo "File uploaded successfully";
+            }
+        } else {
+            echo "Failed to upload file.";
+        }
+    }
+}
+
+if (isset($_GET['file_id'])) {
+  $id = $_GET['file_id'];
+
+  // fetch file to download from database
+  $sql = "SELECT * FROM files WHERE id=$id";
+  $result = mysqli_query($conn, $sql);
+
+  $file = mysqli_fetch_assoc($result);
+  $filepath = 'uploads/' . $file['name'];
+
+  if (file_exists($filepath)) {
+      header('Content-Description: File Transfer');
+      header('Content-Type: application/octet-stream');
+      header('Content-Disposition: attachment; filename=' . basename($filepath));
+      header('Expires: 0');
+      header('Cache-Control: must-revalidate');
+      header('Pragma: public');
+      header('Content-Length: ' . filesize('uploads/' . $file['name']));
+      readfile('uploads/' . $file['name']);
+
+      // Now update downloads count
+      $newCount = $file['downloads'] + 1;
+      $updateQuery = "UPDATE files SET downloads=$newCount WHERE id=$id";
+      mysqli_query($conn, $updateQuery);
+      exit;
+  }
+
+}
+
+?>
 </html>

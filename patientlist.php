@@ -8,8 +8,8 @@
 require_once('class/connectdb.php');
 require_once('class/functions.php'); 
 require_once('server.php');
-session_start();
 
+$db = mysqli_connect('localhost', 'root', '', 'account');
 
 ?>
 
@@ -69,14 +69,15 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
+  <a class="w3-bar-item w3-button w3-hover-black" href="home.php">Home</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="login.php">login</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="register.php">register</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="booking.php">booking</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="schedules.php">schedules</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="patientlist.php">patient list</a>
- 
+    <a class="w3-bar-item w3-button w3-theme-l1" href="newpatient.php">Add Patients</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="scheduletable.php">Scheduled patients list</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="chart.php">chart</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="FinancialRecord.php">Financial</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -92,8 +93,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
            
   <h2 align= center>Patient List</h2>
   <div class="col-sm-6">
-						<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons"></i> <span>Add New User</span></a>
-						<a href="JavaScript:void(0);" class="btn btn-danger" id="delete_multiple"><i class="material-icons"></i> <span>Delete</span></a>						
+					<!---	<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons"></i> <span>Add Patients</span></a>-->
+								
 					</div>
   <table class="table table-hover">
                 <tr>
@@ -151,7 +152,11 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                     <td><?php echo $row['patient_Age'];?></td>
                     <td><?php echo $row['patient_Contact'];?></td>
                     <td><?php echo $row['patient_Email'];?></td>
-
+                    <td>
+				<a href="patientlist.php?delpatient=<?php echo $row['id']; ?>" class="del_btn">Delete</a>
+     <a href="#editEmployeeModal=<?php echo $row['id']; ?>" class="editpatient"  id = "editpatient" data-toggle="#editEmployeeModal">Add Session</a>
+ 
+			</td>
                 </tr>
                 <?php endwhile;?>
                 </table>
@@ -163,24 +168,82 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">EDIT</h4>
+        <h4 class="modal-title">Add Session</h4>
       </div>
       <div class="modal-body">
-      <form action = "server.php" method = "post">
-        <p><input type="text" class="input-sm" id="txtfname"/></p>
-        <p><input type="text" class="input-sm" id="txtmname"/></p>
-        <p><input type="text" class="input-sm" id="txtlname"/></p>
-        <p><input type="text" class="input-sm" id="txtage"/></p>
-        <textarea id="w3mission" rows="4" cols="50">
-        </textarea>
+      <form action = "patientlist.php" method = "post">
+      <label for = "Schedpatient_First_name"> Patient First Name:  </label>
+<input type ="text" name= "Schedpatient_First_name" required><br>
+
+<label for = "Schedpatient_Middle_name"> Patient Middle Name:  </label>
+<input type ="text" name= "Schedpatient_Middle_name"><br>
+
+<label for = "Schedpatient_Last_name"> Patient Last Name:  </label>
+<input type ="text" name= "Schedpatient_Last_name" required><br>
+
+      <label for = "assigned_Therapist2"> Assigned Therapist:  </label>
+<input type ="text" name= "assigned_Therapist" ><br>
+
+<label for = "patient_Payment2"> Payment:  </label>
+<input type ="text" name= "patient_Payment" ><br>
+
+<label for="set_Schedule"> Set Date: </label>
+<input type ="date" name= "set_Schedule" ><br>
+
+
+<label for="schedule_time">Choose a time for your meeting:</label>
+
+<input type="time" id="schedule_time" name="schedule_time"
+       min="09:00" max="16:00">
+
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-default" name ="Add_Session"data-dismiss="modal">Add Session</button>
+      
+      
       
       </div>
+      <!-- <div class="modal-body">
+      <form action = "patientlist.php" method = "post">
+      		<input type="hidden" id="id_u" name="id" class="form-control" required>					
+						<div class="form-group">
+							<label>First Name</label>
+							<input type="text" id="fname_u" name="newpatient_First_name" class="form-control" required>
+						</div>
+                        <div class="form-group">
+							<label>Middle Name</label>
+							<input type="text" id="mname_u" name="pnewatient_Middle_name" class="form-control" required>
+						</div>
+                        <div class="form-group">
+							<label>Last Name</label>
+							<input type="text" id="lname_u" name="newpatient_Last_name" class="form-control" required>
+						</div>
+                        <div class="form-group">
+							<label>Age</label>
+							<input type="text" id="age_u" name="newpatient_Age" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>Contact</label>
+							<input type="text" id="contact_u" name="newpatient_Contact" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>Email</label>
+							<input type="email" id="Email_u" name="newpatient_Email" class="form-control" required>
+						</div>
+            <div class="modal-footer">
+            <button type="submit" class="btn btn-default" name = "editpatient"data-dismiss="modal">Edit Patient</button>
+      </div>
+							</div>	       -->
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+
+
+
 
     </div>
    
@@ -188,73 +251,63 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 
   </body>
 
-  <div id="addEmployeeModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form id="user_form" action="server.php">">
-					<div class="modal-header">						
-						<h4 class="modal-title">Add User</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					</div>
-					<div class="modal-body">	
-                   				
-						<div class="form-group">
-							<label>First Name</label>
-							<input type="text" id="patientFirstname" name="patient_First_name" class="form-control" required>
-						</div>
-						<div class="form-group">
-							<label>Middle Name</label>
-							<input type="text" id="patientMiddlename" name="patient_Middle_name" class="form-control" required>
-						</div>
-						<div class="form-group">
-							<label>Last Name</label>
-							<input type="text" id="patientLastname" name="patient_Last_name" class="form-control" required>
-						</div>
-						<div class="form-group">
-							<label>Age</label>
-							<input type="text" id="patientAge" name="patient_Age" class="form-control" required>
-						</div>		
-                        <div class="form-group">
-							<label>Contact</label>
-							<input type="text" id="patientContact" name="patient_Contact" class="form-control" required>
-						</div>	
-                        <div class="form-group">
-							<label>	Email</label>
-							<input type="email" id="patientEmail" name="patient_Email" class="form-control" required>
-						</div>	
+  
 
-					</div>
-					<div class="modal-footer">
-					    <input type="hidden" value="1" name="type">
-						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                        
-						<button type="submit" class="btn btn-success" name = "add_Patient" id="add_Patient">Add</button>
-					</div>
-
-				</form>
-			</div>
-		</div>
-	</div>
  
 
 <!-- END MAIN -->
+<?php 
+$id = 0;
+if (isset($_GET['delpatient'])) {
+    $id = $_GET['delpatient'];
+    mysqli_query($db, "DELETE FROM schedule_table WHERE id=$id");
 
+   
+}
+
+
+
+if (isset($_GET['editpatient'])) {
+  $id = $_GET['id'];
+  mysqli_query('$db', "DELETE FROM schedule_table WHERE id='$id'");
+
+  $Newpatient_First_name =$_POST['patient_newFirst_name'];
+  $Newpatient_Middle_name = $_POST['patient_newMiddle_name'];
+  $Newpatient_Last_name = $_POST['patient_newLast_name'];
+  $Newpatient_Age = $_POST['patient_newAge'];
+  $Newpatient_Contact = $_POST['patient_newContact'];
+  $Newpatient_Email = $_POST['patient_newEmail'];
+
+  mysqli_query($db, "UPDATE schedule_table SET patient_First_name='$newpatient_First_name',
+patient_Middle_name='$newpatient_Middle_name',patient_Last_name='$newpatient_Last_name',patient_Age='$newpatient_Age',
+
+,patient_Contact='$newpatient_Contact',patient_Email='$newpatient_Email', WHERE id=$id");
+
+
+
+
+  $_SESSION['message'] = "Address updated!"; 
+  header('location: patientlist.php');
+
+
+}
+
+
+
+
+
+?>
 
 <script>
 //modal
 
 $('table tbody tr  td').on('click',function(){
     $("#myModal").modal("show");
+  
     $("#txtfname").val($(this).closest('tr').children()[0].textContent);
     $("#txtlname").val($(this).closest('tr').children()[1].textContent);
 });
 
-
-// Get the Sidebar
-var mySidebar = document.getElementById("mySidebar");
-
-// Get the DIV with overlay effect
-var overlayBg = document.getElementById("myOverlay");
 
 // Toggle between showing and hiding the sidebar, and add overlay effect
 function w3_open() {

@@ -69,13 +69,15 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
+  <a class="w3-bar-item w3-button w3-hover-black" href="home.php">Home</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="login.php">login</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="register.php">register</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="booking.php">booking</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="schedules.php">schedules</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="patientlist.php">patient list</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="newpatient.php">Add Patients</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="scheduletable.php">Scheduled patients list</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="FinancialRecord.php">Financials</a>
+  <a class="w3-bar-item w3-button w3-theme-l1" href="FinancialRecord.php">Financials</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -89,23 +91,17 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     <div class="container">
    
            
-  <h2 align= center>Scheduled Patient List</h2>
+  <h2 align= center>Finances</h2>
               
   <table class="table table-hover">
                 <tr>
-                   
-                    <th>First Name</th>
-                    <th>Middle Name</th>
-                    <th>Last Name</th>
-                    <th>Scheduled Date</th>
-                    <th>Time</th>
-                    <th>Payment</th>
-                    <th>Assigned Therapist</th>
-                </tr>
-                <form action="scheduletable.php" method="post">
-            <input type="text" name="valueToSearch" placeholder="Value To Search"><br><br>
-            <input type="submit" name="search" value="Filter"><br><br>
-            <input type="submit" name="reset" value="reset"><br><br>
+              
+             
+                <label for="checkDate"> Set Date: </label>
+                <input type ="date" name= "checkDate" ><br>
+                <input type ="submit" name= "checkSales" ><br>
+                <form action = "FinancialRecord.php" method = "post">
+                <input type="submit" name="reset" value="reset"><br><br>
       <!-- populate table from mysql database -->
                 <?php 
 
@@ -114,21 +110,36 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                   $valueToSearch = $_POST['valueToSearch'];
                   // search in all table columns
                   // using concat mysql function
-                  $query = "SELECT * FROM `patientsscheduled` WHERE
-                   CONCAT(`Schedpatient_First_name`, `Schedpatient_Middle_name`, `Schedpatient_Last_name`,
+                  $query = "SELECT `set_Schedule`,`schedule_time`,`patient_Payment`,`assigned_Therapist` FROM `patientsscheduled` WHERE
+                   CONCAT(
                     `set_Schedule`,`schedule_time`,`patient_Payment`,`assigned_Therapist`) 
                   LIKE '%".$valueToSearch."%'";
                   $search_result = filterTable($query);
                   
                 }
+                else if (isset($_POST['checkSales'])) {
+                   
+                   $checkdate = $_POST['checkDate'];
+                    $query = 
+
+             "SELECT set_Schedule  
+              FROM patientsscheduled          
+              where 
+               $checkDate=set_Schedule";
+
+$search_result = filterTable($query);
+                                 
+                  }
                  else if (isset($_POST['reset'])) {
-                  $query = "SELECT * FROM `patientsscheduled`";
+                  $query = "SELECT `set_Schedule`,`schedule_time`,`patient_Payment`,`assigned_Therapist` FROM `patientsscheduled`";
                   $search_result = filterTable($query);
                 }
                 else {
-                    $query = "SELECT * FROM `patientsscheduled`";
+                    $query = "SELECT `set_Schedule`,`schedule_time`,`patient_Payment`,`assigned_Therapist` FROM `patientsscheduled`";
                     $search_result = filterTable($query);
                   }
+                  
+               
                 // function to connect and execute the query
                 function filterTable($query)
                 {
@@ -141,9 +152,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 
                 while($row = mysqli_fetch_array($search_result)):?>
                 <tr>
-                    <td><?php echo $row['Schedpatient_First_name'];?></td>
-                    <td><?php echo $row['Schedpatient_Middle_name'];?></td>
-                    <td><?php echo $row['Schedpatient_Last_name'];?></td>
+                   
                     <td><?php echo $row['set_Schedule'];?></td>
                     <td><?php echo $row['schedule_time'];?></td>
                     <td><?php echo $row['patient_Payment'];?></td>
@@ -166,8 +175,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
         <p><input type="text" class="input-sm" id="txtmname"/></p>
         <p><input type="text" class="input-sm" id="txtlname"/></p>
         <p><input type="text" class="input-sm" id="txtage"/></p>
-        <textarea id="w3mission" rows="4" cols="50">
-        </textarea>
+        
+     
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

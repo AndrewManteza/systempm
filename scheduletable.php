@@ -23,6 +23,7 @@ $connect = new connectdb('root', '','account');
    <title>Scheduled Patients</title>
    <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/flatly/bootstrap.min.css">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
@@ -52,18 +53,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
  <body>
 
 <!-- Navbar -->
-<div class="w3-top">
-  <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
-    <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
-    <a href="#" class="w3-bar-item w3-button w3-theme-l1">Logo</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">About</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Values</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">News</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Contact</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white">Clients</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white">Partners</a>
-  </div>
-</div>
+
 
 <!-- Sidebar -->
 <nav class="w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left" id="mySidebar">
@@ -71,15 +61,15 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
-  <a class="w3-bar-item w3-button w3-hover-black" href="home.php">Home</a>
+  
   <a class="w3-bar-item w3-button w3-hover-black" href="login.php">login</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="register.php">register</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="booking.php">booking</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="schedules.php">schedules</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="bookingblank.php">booking</a>
+
   <a class="w3-bar-item w3-button w3-hover-black" href="patientlist.php">patient list</a>
     <a class="w3-bar-item w3-button w3-hover-black" href="newpatient.php">Add Patients</a>
   <a class="w3-bar-item w3-button w3-theme-l1" href="scheduletable.php">Scheduled patients list</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="FinancialRecord.php">Financial</a>
+
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -97,7 +87,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               
   <table class="table table-hover">
                 <tr>
-                   
+                <tr class="table-info">
                     <th>First Name</th>
                     <th>Middle Name</th>
                     <th>Last Name</th>
@@ -105,12 +95,12 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                     <th>Time</th>
                     <th>Payment</th>
                     <th>Assigned Therapist</th>
-                </tr>
+                </tr>   </tr>
                 <form action="scheduletable.php" method="post">
             <input type="text" name="valueToSearch" placeholder="Value To Search"><br><br>
-            <input type="submit" name="search" value="Filter"><br><br>
-            <input type="submit" name="reset" value="Reset"><br><br>
-            <input type="submit" name="schedtoday" value="Patients Today"><br><br>
+            <input type="submit"  class="btn btn-primary" name="search" value="Filter"><br><br>
+            <input type="submit" class="btn btn-primary" name="reset" value="Reset"><br><br>
+            <input type="submit"  class="btn btn-primary" name="schedtoday" value="Patients Today"><br><br>
       <!-- populate table from mysql database -->
                 <?php 
 
@@ -168,7 +158,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                   
 			<td>
 				<a href="scheduletable.php?del=<?php echo $row['id']; ?>" class="del_btn">Delete</a>
-        <a href="updatepatient.php" class="update_btn">Update</a>
+        <a href="updatepatient.php?id=<?php echo $row['id']; ?>" class="update_btn">Update</a>
 			</td>
                 </tr>
                 <?php endwhile;?>
@@ -193,26 +183,7 @@ if (isset($_GET['del'])) {
 }
 
 
-if (isset($_POST['updatebutton'])) {
 
-
-  $id = 0;
-  $id = $_POST['updatebutton'];
-  mysqli_query($db, "DELETE FROM patientsscheduled WHERE id='$id'");
-
-	$newSchedpatient_First_name=$_POST['newSchedpatient_First_name'];
-	$newSchedpatient_Middle_name=$_POST['newSchedpatient_Middle_name'];
-	$newSchedpatient_Last_name=$_POST['newSchedpatient_Last_name'];
-	$newset_Schedule=$_POST['newset_Schedule'];
-	$newschedule_time=$_POST['newschedule_time'];
-	$newpatient_Payment=$_POST['newpatient_Payment'];
-	$newassigned_Therapist=$_POST['newassigned_Therapist'];
-	
-
-	$connect->updatedataID( 'patientsscheduled', array("Schedpatient_First_name"=>$newSchedpatient_First_name,
-	"Schedpatient_Middle_name"=>$newSchedpatient_Middle_name,"Schedpatient_Last_name" =>$newSchedpatient_Last_name,"set_Schedule"=>$newset_Schedule
-	,"schedule_time"=>$newschedule_time,"patient_Payment"=>$newpatient_Payment, "assigned_Therapist"=>$newassigned_Therapist));
-}
 ?>
  
 <script>

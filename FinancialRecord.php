@@ -8,7 +8,6 @@
 require_once('class/connectdb.php');
 require_once('class/functions.php'); 
 require_once('server.php');
-session_start();
 
 
 ?>
@@ -50,18 +49,6 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
  <body>
 
 <!-- Navbar -->
-<div class="w3-top">
-  <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
-    <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
-    <a href="#" class="w3-bar-item w3-button w3-theme-l1">Logo</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">About</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Values</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">News</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Contact</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white">Clients</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white">Partners</a>
-  </div>
-</div>
 
 <!-- Sidebar -->
 <nav class="w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left" id="mySidebar">
@@ -69,15 +56,15 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
-  <a class="w3-bar-item w3-button w3-hover-black" href="home.php">Home</a>
+
   <a class="w3-bar-item w3-button w3-hover-black" href="login.php">login</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="register.php">register</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="booking.php">booking</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="schedules.php">schedules</a>
+ 
   <a class="w3-bar-item w3-button w3-hover-black" href="patientlist.php">patient list</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="newpatient.php">Add Patients</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="scheduletable.php">Scheduled patients list</a>
-  <a class="w3-bar-item w3-button w3-theme-l1" href="FinancialRecord.php">Financials</a>
+  <a class="w3-bar-item w3-button w3-theme-l1" href="FinancialRecord.php">Financial</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->

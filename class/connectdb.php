@@ -52,7 +52,7 @@ $this->currentuser='';
 			$num=mysqli_num_rows($result);
 			return $num;
 		}
-		function checkSchedIfExist($dbname,$set_Schedule,$setSchedule_time)
+		function checkSchedIfExist($dbname,$setSchedule,$setSchedule_time)
 		{
 			$s= "SELECT id FROM $dbname WHERE 
 				
@@ -126,11 +126,12 @@ if (mysqli_query($this->db, $s)) {
 		function updatedataID($dbname,$data,$id)
 		{	
 			$values=queryArrangerForUpdate($data);
-
-			 mysqli_query($this->db,("UPDATE `$dbname` SET
+			$check= mysqli_query($this->db,("UPDATE `$dbname` SET
 			 $values 
 			 WHERE id=$id"));
 
+
+			return $check;
 		}
 		function updatedataUSERNAME($dbname,$data,$username)
 		{	
@@ -140,7 +141,45 @@ if (mysqli_query($this->db, $s)) {
 			 $values 
 			 WHERE username='$username'"));
 
+
+
 		}
+		function directCodeJSONFormat($sql)
+		{
+			$result=mysqli_query($this->db,$sql);
+			$rows = array();
+			while($r = mysqli_fetch_assoc($result)) 
+			{
+			    $rows[] = $r;
+			}
+		
+			return json_encode($rows);
+		}
+		function getIdlang($sql)
+		{
+			$result=mysqli_query($this->db,$sql);
+			$id=mysqli_fetch_assoc($result);
+			return $id;
+		}
+		function updateData($dbname,$arrayInfo,$id)
+		{
+			$id = 0;
+			$values=queryArrangerForUpdate($arrayInfo);
+			echo $values;
+			 mysqli_query($this->db,("UPDATE `$dbname` SET
+			 $values 
+			 WHERE id=$id"));
+
+		}
+
+		// function updatedata($dbname,$arrayInfo)
+		// {	
+		// 	$values=queryArrangerForUpdate($data);
+		// 	echo $values;
+		// 	 mysqli_query($this->db,("UPDATE `$dbname` SET
+		// 	 $values 
+		// 	 WHERE username='$username'"));
+
 		function deleteData($dbname,$id)
 		{	
 			 mysqli_query($this->db,("DELETE FROM `$dbname` WHERE id=$id"));

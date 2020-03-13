@@ -52,19 +52,7 @@ label {
 
    <body>
    <!-- Navbar -->
-<div class="w3-top">
-  <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
-    <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
-    <a href="#" class="w3-bar-item w3-button w3-theme-l1">Logo</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">About</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Values</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">News</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Contact</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white">Clients</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white">Partners</a>
 
-  </div>
-</div>
 
 
    <!-- Sidebar -->
@@ -73,15 +61,15 @@ label {
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
-  <a class="w3-bar-item w3-button w3-hover-black" href="home.php">Home</a>
+  
   <a class="w3-bar-item w3-button w3-hover-black" href="login.php">login</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="register.php">register</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="booking.php">booking</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="schedules.php">schedules</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="bookingblank.php">booking</a>
+  
   <a class="w3-bar-item w3-button w3-hover-black" href="patientlist.php">patient list</a>
     <a class="w3-bar-item w3-button w3-theme-l1" href="newpatient.php">Add Patients</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="scheduletable.php">Scheduled patients list</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="FinancialRecord.php">Financial</a>
+ 
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -102,13 +90,6 @@ label {
    <form action = "server.php" method = "post">
 
    <?php
-      if(isset($_SESSION['fail3']))
-      {
-        echo '<h1>Time is occupied</h1>';
-        unset($_SESSION['fail3']);
-       
-      }
-
       ?>
 
 
@@ -126,11 +107,19 @@ label {
 <label for = "patient_Age"> Age:  </label>
 <input type ="text" name= "patient_Age" required><br>
 
-<label for="patient_Contact"> Contact </label>
-<input type ="text" name= "patient_Contact" required><br>
+<label for="patient_Contact"> Contact: </label>
+<input type ="tel" name= "patient_Contact" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" ><br>
+
+<label for="patient_Landcontact">2nd Contact: </label>
+<input type ="tel" name= "patient_Landcontact" pattern="[0-9]{2}-[0-9]{4}-[0-9]{4}" ><br>
+
 
 <label for = "patient_Email"> Email:  </label>
-<input type ="text" name= "patient_Email" required><br>
+<input type ="text" name= "patient_Email" ><br>
+
+<label for = "patient_Address"> Address:  </label>
+<input type ="text" name= "patient_Address" ><br>
+
 
        <button type = "submit" name = "add_Patient"> Add Patient</button>
 

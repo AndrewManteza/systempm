@@ -55,7 +55,7 @@ require_once('class/functions.php');
 
 		if ($check==1) 
 		{
-			header('location: home.php');
+			header('location: scheduletable.php');
 		}
 		else
 		{
@@ -71,8 +71,13 @@ require_once('class/functions.php');
 //booking
 
 //I HAVE DUPLICATES!!!!!! FUUUUCCCKK
+
+
+
 	if (isset($_POST['schedule_appointment'])) 
 	{
+
+		
 		$Schedpatient_First_name=$_POST['Schedpatient_First_name'];
 		$Schedpatient_Middle_name=$_POST['Schedpatient_Middle_name'];
 		$Schedpatient_Last_name=$_POST['Schedpatient_Last_name'];
@@ -87,10 +92,18 @@ require_once('class/functions.php');
 
 		 if ($check==1) {
 		
-		 echo "failed";
+		 
 			
-		 	$_SESSION['fail3']='set';
+			 $_SESSION['failcheck']='set';
+			 header('location: booking.php');
 		 }
+			//  else if ( $setSchedule < $d ){
+
+			// 	$_SESSION['failcheck2']='set';
+			// 	header('location: booking.php');
+			//  }
+		 
+
 		 	else 
 			{
 				
@@ -121,7 +134,9 @@ require_once('class/functions.php');
 			$patient_Last_name=$_POST['patient_Last_name'];
 			$patient_Age=$_POST['patient_Age'];
 			$patient_Contact=$_POST['patient_Contact'];
+			$patient_Landcontact=$_POST['patient_Landcontact'];
 			$patient_Email=$_POST['patient_Email'];
+			$patient_Address=$_POST['patient_Address'];
 			
 	
 			$connect->insertData('schedule_table',
@@ -130,7 +145,9 @@ require_once('class/functions.php');
 			"patient_Last_name"=>$patient_Last_name,
 			"patient_Age"=>$patient_Age, 
 			"patient_Contact"=>$patient_Contact,
-			"patient_Email"=>$patient_Email
+			"patient_Landcontact"=>$patient_Landcontact,
+			"patient_Email"=>$patient_Email,
+			"patient_Address"=>$patient_Address,
 			
 
 			

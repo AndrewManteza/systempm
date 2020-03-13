@@ -106,29 +106,18 @@ label {
 
 
       
-<?php
-    $idofpatient;
-    if (isset($_GET['id'])) 
-    {
-       $idofpatient = $_GET['id'];
-
-    }
-
-   $values= $connect ->getIdlang( "SELECT * FROM schedule_table WHERE id = $idofpatient");
-    
-?>
 
 
 <h1>Appointment Schedules</h1>
 
 <label for = "Schedpatient_First_name"> Patient First Name:  </label>
-<input type ="text" name= "Schedpatient_First_name"  value="<?php if($idofpatient !=0)echo $values['patient_First_name'] ?>" required><br>
+<input type ="text" name= "Schedpatient_First_name"  required><br>
 
 <label for = "Schedpatient_Middle_name"> Patient Middle Name:  </label>
-<input type ="text" name= "Schedpatient_Middle_name" value="<?php echo $values['patient_Middle_name'] ?>" ><br>
+<input type ="text" name= "Schedpatient_Middle_name"  ><br>
 
 <label for = "Schedpatient_Last_name"> Patient Last Name:  </label>
-<input type ="text" name= "Schedpatient_Last_name" value="<?php echo $values['patient_Last_name'] ?>" required ><br>
+<input type ="text" name= "Schedpatient_Last_name" required ><br>
 
 <label for = "assigned_Therapist"> Assigned Therapist:  </label>
 <input type ="list" name= "assigned_Therapist" required><br>
